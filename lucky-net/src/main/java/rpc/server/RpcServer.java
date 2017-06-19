@@ -1,6 +1,7 @@
 package rpc.server;
 
 import exception.RpcException;
+import lombok.Getter;
 import lucky.util.log.Logger;
 import lucky.util.log.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -20,9 +21,15 @@ import rpc.options.RpcServerOptions;
 public class RpcServer {
 
     private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
+    @Getter
     private RpcServerOptions serverOptions;
     private RemotingServer server;
     private static final Registry registry = CuratorRegistry.registry;
+
+
+    public RpcServer() {
+        //从配置文件中读取配置信息
+    }
 
     public RpcServer(RpcServerOptions options) {
         this.serverOptions = serverOptions;
@@ -46,22 +53,25 @@ public class RpcServer {
         try {
             //服务端口启动
             this.server.start();
+            //判断是否注册到配置中心去
             if (serverOptions.isRegister()) {
                 if (StringUtils.isEmpty(serverOptions.getAddress())) {
                     return;
                 }
+
+                //把provider注册到配置中心去
+                registry.register(() -> {
+                    Provider provider = new Provider();
+                    provider.setAddress(serverOptions.getAddress());
+                    provider.setName(serverOptions.getName());
+                    provider.setDescription(serverOptions.getDescription());
+                    provider.setPort(serverOptions.getPort());
+                    provider.setVersion(serverOptions.getVersion());
+                    provider.getSettings().putAll(serverOptions.getConfig());
+                    return provider;
+                });
             }
-            //把provider注册到配置中心去
-            registry.register(() -> {
-                Provider provider = new Provider();
-                provider.setAddress(serverOptions.getAddress());
-                provider.setName(serverOptions.getName());
-                provider.setDescription(serverOptions.getDescription());
-                provider.setPort(serverOptions.getPort());
-                provider.setVersion(serverOptions.getVersion());
-                provider.getSettings().putAll(serverOptions.getConfig());
-                return provider;
-            });
+
         } catch (Exception e) {
             logger.error("sever{},start failed,error{}", serverOptions.getName(), e);
             throw new RpcException("server start failed");
