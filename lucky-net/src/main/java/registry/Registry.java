@@ -3,6 +3,7 @@ package registry;
 import rpc.Provider;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 /**
@@ -16,8 +17,10 @@ public interface Registry {
 
     void remove(Provider provider);
 
-    List<Provider> lookup(String serverName);
+    List<Provider> lookup(String serverName, BiConsumer<String, List<Provider>> consumer);
 
     void add(Provider provider);
+
+    void watcher(String path);
 
 }

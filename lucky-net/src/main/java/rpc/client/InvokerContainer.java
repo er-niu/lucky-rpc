@@ -24,7 +24,7 @@ public class InvokerContainer {
 
     private static final Logger logger = LoggerFactory.getLogger(InvokerContainer.class);
     //服务得注册容器，需要定时更新下线,通过watcher机制，进行动态更新即可
-    private static final ConcurrentHashMap<String, InvokerContainer> container = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, InvokerContainer> containers = new ConcurrentHashMap<>();
     private String server;
     //初始化得时候，进行执行容器初始化
     private List<Invoker> invokers;
@@ -44,7 +44,7 @@ public class InvokerContainer {
 
 
     public static InvokerContainer get(String server) {
-        return container.computeIfAbsent(server, InvokerContainer::new);
+        return containers.computeIfAbsent(server, InvokerContainer::new);
     }
 
 
@@ -87,12 +87,14 @@ public class InvokerContainer {
         List<Invoker> list = new ArrayList<>();
         //优先考虑直连
         if (options == null || !options.isDiscovery()) {
-            List<Provider> providers = registry.lookup(this.server);
+            //这边加一个watcher的机制
+            List<Provider> providers = registry.lookup(this.server, InvokerContainer::updateProviders);
             if (!providers.isEmpty()) {
                 providers.forEach(provider -> {
                     Invoker invoker = createInvoker(getOptions(provider, options));
                     list.add(invoker);
                 });
+                //添加一个watcher机制信息
             } else {
                 logger.warn("从注册中心未获取到任务属于服务{}的节点", server);
             }
@@ -102,9 +104,31 @@ public class InvokerContainer {
     }
 
 
+    //动态更新维护得列表信息
+    public static void updateProviders(String server, List<Provider> providers) {
+        List<Invoker> invokers = new ArrayList<>();
+        providers.forEach(provider -> {
+            Invoker invoker = createInvoker(getOptions(provider, null));
+            invokers.add(invoker);
+        });
+
+        InvokerContainer container = containers.get(server);
+        logger.info("后台服务{}变更，更新节点列表信息，节点信息{}", server, providers.toString());
+        container.setInvokers(invokers);
+
+    }
+
+    private void setInvokers(List<Invoker> invokers) {
+        this.invokers = invokers;
+    }
+
     //上游传过来得是provider,从注册中心获取配置
     private static RpcClientOptions getOptions(Provider provider, RpcClientOptions options) {
         RpcClientOptions clientOptions = new RpcClientOptions(provider);
+        if (options != null) {
+            clientOptions.setVersion(options.getVersion());
+            clientOptions.getConfig().putAll(options.getConfig());
+        }
         return clientOptions;
     }
 

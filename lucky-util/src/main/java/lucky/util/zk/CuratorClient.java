@@ -16,6 +16,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @Author:chaoqiang.zhou
@@ -28,6 +29,8 @@ public class CuratorClient implements Closeable {
     private CuratorFramework curator;
     private static final Logger logger = LoggerFactory.getLogger(CuratorClient.class);
     private final int TIME_OUT = 5000;
+    //启动得信号变量
+    private CountDownLatch connectedSemaphore = new CountDownLatch(1);
 
 
     public CuratorClient(String nameSpace, String zkAddress) {
@@ -37,27 +40,35 @@ public class CuratorClient implements Closeable {
     }
 
     public void init(String nameSpace, String address) {
-        this.nameSpace = nameSpace;
-        this.zkAddress = address;
-        this.curator = CuratorFrameworkFactory.builder().connectString(this.zkAddress)
-                .namespace(this.nameSpace)
-                .retryPolicy(new RetryNTimes(5, 1000))
-                .connectionTimeoutMs(TIME_OUT).build();
-        this.curator.getConnectionStateListenable().addListener(new ConnectionStateListener() {
-            @Override
-            public void stateChanged(CuratorFramework curatorFramework, ConnectionState connectionState) {
-                logger.info("Zookeeper connection state changed {}.", connectionState);
-                if (connectionState == ConnectionState.LOST) {
-                    logger.info("Zookeeper connection lost,retry again");
-                    retry();
-                } else if (connectionState == ConnectionState.CONNECTED) {
-                    logger.info("Zookeeper connection has benn established");
-                } else if (connectionState == ConnectionState.RECONNECTED) {
-                    logger.info("Zookeeper connection has been re-established, will re-subscribe and re-register.");
+        try {
+            this.nameSpace = nameSpace;
+            this.zkAddress = address;
+            this.curator = CuratorFrameworkFactory.builder().connectString(this.zkAddress)
+                    .namespace(this.nameSpace)
+                    .retryPolicy(new RetryNTimes(5, 1000))
+                    .connectionTimeoutMs(TIME_OUT).build();
+            this.curator.getConnectionStateListenable().addListener(new ConnectionStateListener() {
+                @Override
+                public void stateChanged(CuratorFramework curatorFramework, ConnectionState connectionState) {
+                    logger.info("Zookeeper connection state changed {}.", connectionState);
+                    if (connectionState == ConnectionState.LOST) {
+                        logger.info("Zookeeper connection lost,retry again");
+                        retry();
+                    } else if (connectionState == ConnectionState.CONNECTED) {
+                        logger.info("Zookeeper connection has benn established");
+                        connectedSemaphore.countDown();
+                    } else if (connectionState == ConnectionState.RECONNECTED) {
+                        logger.info("Zookeeper connection has been re-established, will re-subscribe and re-register.");
+                    }
                 }
-            }
-        });
-        this.curator.start();
+            });
+
+            this.curator.start();
+            connectedSemaphore.await();
+        } catch (Exception e) {
+            logger.info("create zookeeper failed,error{}", e);
+        }
+
     }
 
 
