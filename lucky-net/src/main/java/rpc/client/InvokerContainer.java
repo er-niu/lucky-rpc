@@ -4,6 +4,8 @@ import exception.RpcException;
 import lombok.Getter;
 import lucky.util.log.Logger;
 import lucky.util.log.LoggerFactory;
+import registry.CuratorRegistry;
+import registry.Registry;
 import rpc.Invoker;
 import rpc.InvokerFactory;
 import rpc.Provider;
@@ -21,12 +23,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InvokerContainer {
 
     private static final Logger logger = LoggerFactory.getLogger(InvokerContainer.class);
-    //服务得注册容器，需要定时更新下线,
+    //服务得注册容器，需要定时更新下线,通过watcher机制，进行动态更新即可
     private static final ConcurrentHashMap<String, InvokerContainer> container = new ConcurrentHashMap<>();
     private String server;
     //初始化得时候，进行执行容器初始化
     private List<Invoker> invokers;
     private boolean initialized;
+    private static final Registry registry = CuratorRegistry.registry;
+
     //这里是直连的信息，如果没有的话，默认是从配置中心获取
     //直连的操作方便进行本地调试操作
     @Getter
@@ -59,17 +63,19 @@ public class InvokerContainer {
 
 
     private void initialize() {
-        List<Invoker> list = initializeFromRegistry();
-        //这块有点绕弯
+        List<Invoker> list = new ArrayList<>();
+        //优先考虑直连操作,options有配置，isDiscovery=false
+        if (options != null || !options.isDiscovery()) {
+            Invoker invoker = createInvoker(options);
+            list.add(invoker);
+        } else {
+            //从配置中心进行获取
+            list = initializeFromRegistry();
+        }
+
         if (list.isEmpty()) {
-            if (options == null) {
-                logger.error("尝试直连、但没有找到对应得服务配置{}", server);
-                throw new RpcException(RpcException.CLIENT_NO_PROVIDER, server);
-            } else {
-                logger.info("尝试直连服务{}", server);
-                Invoker invoker = createInvoker(options);
-                list.add(invoker);
-            }
+            logger.error("没有找到对应得服务配置{}", server);
+            throw new RpcException(RpcException.CLIENT_NO_PROVIDER, server);
         }
         this.invokers = list;
         this.initialized = true;
@@ -80,11 +86,18 @@ public class InvokerContainer {
     private List<Invoker> initializeFromRegistry() {
         List<Invoker> list = new ArrayList<>();
         //优先考虑直连
-        if (options == null || options.isDiscovery()) {
-
+        if (options == null || !options.isDiscovery()) {
+            List<Provider> providers = registry.lookup(this.server);
+            if (!providers.isEmpty()) {
+                providers.forEach(provider -> {
+                    Invoker invoker = createInvoker(getOptions(provider, options));
+                    list.add(invoker);
+                });
+            } else {
+                logger.warn("从注册中心未获取到任务属于服务{}的节点", server);
+            }
         }
-
-
+        //从注册中心get操作即可,从zk上获取即可
         return list;
     }
 

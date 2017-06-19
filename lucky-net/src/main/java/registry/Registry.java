@@ -12,6 +12,12 @@ import java.util.function.Supplier;
  */
 public interface Registry {
 
-    void register(Supplier<Provider> supplier);
+    void register(Supplier<Provider> supplier) throws Exception;
+
     void remove(Provider provider);
+
+    List<Provider> lookup(String serverName);
+
+    void add(Provider provider);
+
 }

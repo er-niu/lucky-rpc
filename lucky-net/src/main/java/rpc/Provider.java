@@ -3,6 +3,8 @@ package rpc;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
  * @Author:chaoqiang.zhou
  * @Description:服务元信息
@@ -13,12 +15,12 @@ import lombok.Setter;
 public class Provider {
 
     private String name;
-    private String type;
     private String address;
     private int port;
     private String version;
     private String description;
-    private String machine;
+    private Map<String, String> settings;
+
     //连接数
     private int clients;
 }
