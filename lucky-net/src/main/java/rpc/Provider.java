@@ -3,6 +3,7 @@ package rpc;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class Provider {
     private int port;
     private String version;
     private String description;
-    private Map<String, String> settings;
+    private Map<String, String> settings=new HashMap<>();
 
     //连接数
     private int clients;

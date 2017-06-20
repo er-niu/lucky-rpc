@@ -32,7 +32,7 @@ public class RpcServer {
     }
 
     public RpcServer(RpcServerOptions options) {
-        this.serverOptions = serverOptions;
+        this.serverOptions = options;
         this.server = createServer(options);
     }
 
@@ -52,7 +52,11 @@ public class RpcServer {
     public void start() {
         try {
             //服务端口启动
+            logger.info("server begain to start,servername {}",serverOptions.getName());
             this.server.start();
+            logger.info("server success to start,servername {}",serverOptions.getName());
+
+
             //判断是否注册到配置中心去
             if (serverOptions.isRegister()) {
                 if (StringUtils.isEmpty(serverOptions.getAddress())) {

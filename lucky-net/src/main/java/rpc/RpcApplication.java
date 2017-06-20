@@ -64,7 +64,8 @@ public class RpcApplication extends Application {
     }
 
     private void scanServices() {
-        scanServiceClass();
+        //todo:注解掉
+//        scanServiceClass();
         scanServicePackage();
     }
 
@@ -108,7 +109,7 @@ public class RpcApplication extends Application {
         }
     }
 
-    // 按包扫描, 只扫描接口类
+    // 按包扫描, 只扫描接口类,扫描指定的包
     private void scanServicePackage() {
         String[] packages;
         String servicePackage = server.getServerOptions().getConfig().get("ServicePackage");
@@ -126,7 +127,15 @@ public class RpcApplication extends Application {
 
     @Override
     protected void load() {
-        scanServices();
-        server.start();
+        try {
+            scanServices();
+            server.start();
+        }catch (Exception e){
+
+            logger.info("the server start failed,error{}",e);
+            //非正常退出程序
+            System.exit(1);
+        }
+
     }
 }

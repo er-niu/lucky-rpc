@@ -6,19 +6,12 @@
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
+                   value="%d - %c -%-4r [%t] %-5p %x - %m%n"/>
         </layout>
-
-        <!--限制输出级别-->
-        <filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="LevelMax" value="ERROR"/>
-            <param name="LevelMin" value="TRACE"/>
-        </filter>
     </appender>
-
     <root>
-        <priority value="debug" />
-        <appender-ref ref="CONSOLE" />
+        <priority value="debug"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 

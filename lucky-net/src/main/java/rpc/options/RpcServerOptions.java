@@ -1,5 +1,6 @@
 package rpc.options;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +23,7 @@ public class RpcServerOptions {
     private String description;
 
     //其他得配置信息
-    private Map<String,String> config;
+    private Map<String,String> config=new HashMap<>();
 
 
     public String getVersion() {

@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.lucky.parent</groupId>
-            <artifactId>lucky-util</artifactId>
+            <artifactId>lucky-net</artifactId>
             <version>${version.lucky}</version>
         </dependency>
         <!--<dependency>-->

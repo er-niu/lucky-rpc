@@ -36,7 +36,7 @@ public class CuratorRegistry implements Registry {
     //启动得时候添加watcher机制
     static {
         //todo：从这里进行zkaddress的初始化操作
-        zkAddress = "";
+        zkAddress = "192.168.214.191:2181";
     }
 
     public static final CuratorClient client = CuratorFactory.get(GlobalConstants.NAME_SPACE, zkAddress);
