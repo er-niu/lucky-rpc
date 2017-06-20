@@ -17,3 +17,8 @@
     1、与springboot容器结合
     2、支持客户端连接限制
     3、支持动态限流
+    4、支持直连操作
+
+#### example
+    1.启动lucky-order下面的provider服务
+    2.启动lucky-test下面得consumer服务
