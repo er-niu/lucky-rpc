@@ -16,14 +16,14 @@ import java.nio.charset.StandardCharsets;
  */
 public class ClientEncoder extends MessageToByteEncoder<NettyRequest> {
     private Serializer serializer = new KryoSerializer();
-    private static final byte[] RESPONSE_HEADER = "NettyResponse".getBytes(StandardCharsets.US_ASCII);
+    private static final byte[] REQUEST_HEADER = "NettyRequest".getBytes(StandardCharsets.US_ASCII);
     private static final byte[] CRLF = new byte[]{'\r', '\n'};
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, NettyRequest request, ByteBuf byteBuf) throws Exception {
         // "NettyResponse " + [length] + "\r\n" + [data]
         byte[] bytes = serializer.writeObject(request);
-        byteBuf.writeBytes(RESPONSE_HEADER);
+        byteBuf.writeBytes(REQUEST_HEADER);
         byteBuf.writeBytes(Integer.toString(bytes.length).getBytes(StandardCharsets.US_ASCII));
         byteBuf.writeBytes(CRLF);
         byteBuf.writeBytes(bytes);

@@ -65,7 +65,7 @@ public class InvokerContainer {
     private void initialize() {
         List<Invoker> list = new ArrayList<>();
         //优先考虑直连操作,options有配置，isDiscovery=false
-        if (options != null || !options.isDiscovery()) {
+        if (options != null) {
             Invoker invoker = createInvoker(options);
             list.add(invoker);
         } else {

@@ -6,6 +6,5 @@ package rpc.test.order.iface;
  * @Date:Create in 8:56 2017/6/20
  */
 public interface OrderInfoInterface {
-
     public String getOrderInfo(String orderId);
 }

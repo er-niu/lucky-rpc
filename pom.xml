@@ -12,6 +12,8 @@
         <module>lucky-util</module>
         <module>lucky-net</module>
         <module>lucky-test</module>
+        <module>lucky-interface</module>
+        <module>lucky-order</module>
     </modules>
 
 

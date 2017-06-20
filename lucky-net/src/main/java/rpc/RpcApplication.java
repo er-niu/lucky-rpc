@@ -131,7 +131,6 @@ public class RpcApplication extends Application {
             scanServices();
             server.start();
         }catch (Exception e){
-
             logger.info("the server start failed,error{}",e);
             //非正常退出程序
             System.exit(1);

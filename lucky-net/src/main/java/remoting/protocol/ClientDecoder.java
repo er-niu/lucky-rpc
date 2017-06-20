@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
  * @Date:Create in 16:00 2017/6/15
  */
 public class ClientDecoder extends ProtocolDecoder {
-    private static final byte[] RESPONSE_HEADER = "NettyResponse ".getBytes(StandardCharsets.US_ASCII);
+    private static final byte[] RESPONSE_HEADER = "NettyResponse".getBytes(StandardCharsets.US_ASCII);
 
     public ClientDecoder() {
         super(NettyResponse.class, RESPONSE_HEADER);

@@ -75,7 +75,7 @@ public class ServerMeta {
             //优先使用rpcmethod
             if (rpcMethod != null) {
                 this.failMode = rpcMethod.fail();
-            } else if (rpcServer.fail() != null) {
+            } else if (rpcServer != null) {
                 this.failMode = rpcServer.fail();
             }
         }

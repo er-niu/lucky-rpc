@@ -68,6 +68,18 @@ public class RemotingServerImpl extends ServerBootstrap implements RemotingServe
                 return new Thread(r, String.format("worderSelecotor_d%", this.threadIndex.getAndIncrement()));
             }
         });
+        this.group(bossGroup, workerGroup)
+                .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.SO_BACKLOG, remotingServerConfig.getBackLogRequest())
+                .option(ChannelOption.SO_KEEPALIVE, false)
+                .option(ChannelOption.SO_REUSEADDR, true)
+                .option(ChannelOption.SO_RCVBUF, remotingServerConfig.getReceiveBufferSize())
+                .option(ChannelOption.SO_SNDBUF, remotingServerConfig.getSenBufferSize())
+                .option(ChannelOption.TCP_NODELAY, remotingServerConfig.isTcpNoDelay());
+        //这个选项会占用大量得堆外内存
+        if (remotingServerConfig.isServerPooledByteBufAllocatorEnable()) {
+            this.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+        }
 
         //初始化业务端连接池操作连接池操作，通过一个队列来执行
         BlockingQueue workQueue = new LinkedBlockingQueue(this.remotingServerConfig.getBackLogRequest());
@@ -81,18 +93,6 @@ public class RemotingServerImpl extends ServerBootstrap implements RemotingServe
 
     @Override
     public void start() {
-        this.group(bossGroup, workerGroup)
-                .channel(NioServerSocketChannel.class)
-                .option(ChannelOption.SO_BACKLOG, remotingServerConfig.getBackLogRequest())
-                .option(ChannelOption.SO_KEEPALIVE, false)
-                .option(ChannelOption.SO_REUSEADDR, true)
-                .option(ChannelOption.SO_RCVBUF, remotingServerConfig.getReceiveBufferSize())
-                .option(ChannelOption.SO_SNDBUF, remotingServerConfig.getSenBufferSize())
-                .option(ChannelOption.TCP_NODELAY, remotingServerConfig.isTcpNoDelay());
-        //这个选项会占用大量得堆外内存
-        if (remotingServerConfig.isServerPooledByteBufAllocatorEnable()) {
-            this.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-        }
 
 
         logger.info("rpc server starting at:{}", remotingServerConfig.getAddress());

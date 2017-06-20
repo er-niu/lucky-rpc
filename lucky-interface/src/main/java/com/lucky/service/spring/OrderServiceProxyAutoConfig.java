@@ -1,4 +1,6 @@
-package rpc.test.order.spring;
+package com.lucky.service.spring;
+
+import com.lucky.service.iface.OrderService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,14 +8,13 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import rpc.client.RpcClient;
-import rpc.test.order.iface.OrderInfoInterface;
 
 
 @Configuration
 @Lazy
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class OrderServiceProxyAutoConfig {
-    private static final String SERVICE = "cmc.lucky.test";
+    private static final String SERVICE = "com.lucky.order.service";
 
     /**
      * 订单服务
@@ -22,8 +23,8 @@ public class OrderServiceProxyAutoConfig {
      */
     @Bean
     @ConditionalOnMissingBean
-    public OrderInfoInterface orderServiceProxy() {
-        return RpcClient.get(SERVICE, OrderInfoInterface.class);
+    public OrderService orderServiceProxy() {
+        return RpcClient.get(SERVICE, OrderService.class);
     }
 
 }

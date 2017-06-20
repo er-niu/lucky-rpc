@@ -83,7 +83,7 @@ public class CuratorRegistry implements Registry {
             }
             if (consumer != null) {
                 //添加一个watcher的机制
-                String watcherPath = "/" + GlobalConstants.NAME_SPACE + "/" + serverName;
+                String watcherPath = "/" + serverName;
                 client.watcherPath(watcherPath, new nodeWatcher(consumer, serverName));
             }
         } catch (Exception e) {
