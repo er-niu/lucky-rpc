@@ -14,6 +14,7 @@
         <module>lucky-test</module>
         <module>lucky-interface</module>
         <module>lucky-order</module>
+        <module>lucky-db</module>
     </modules>
 
 
