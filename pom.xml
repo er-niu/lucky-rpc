@@ -228,20 +228,20 @@
 
     <profiles>
         <profile>
-            <id>mtime</id>
+            <id>Test</id>
             <properties>
-                <releases-url>http://192.168.50.240:8081/nexus/content/repositories/mtime</releases-url>
-                <snapshots-url>http://192.168.50.240:8081/nexus/content/repositories/mtime-snapshots</snapshots-url>
+                <releases-url></releases-url>
+                <snapshots-url></snapshots-url>
             </properties>
         </profile>
         <profile>
-            <id>mx</id>
+            <id>snaot</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <releases-url>http://repo.mx.com/content/repositories/mx</releases-url>
-                <snapshots-url>http://repo.mx.com/content/repositories/mx-snapshots</snapshots-url>
+                <releases-url></releases-url>
+                <snapshots-url></snapshots-url>
             </properties>
         </profile>
     </profiles>
