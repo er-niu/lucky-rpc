@@ -30,26 +30,28 @@ public class RpcServerOptions {
     static {
         try {
             URL etcUrl = Thread.currentThread().getContextClassLoader().getResource("config");
-            String configPath = UrlUtil.decode(etcUrl.getPath()) + "/" + "rpc.server.conf";
+            String configPath = UrlUtil.decode(etcUrl.getPath()) + "/" + "remote.client.conf";
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             File file = new File(configPath);
-            Document document = db.parse(file);
+            Document document = db.parse(file.getAbsolutePath());
             NodeList configList = document.getElementsByTagName("server");
             //循环遍历节点信息，写入全局配置信息
             for (int i = 0; i < configList.getLength(); i++) {
                 Element elem = (Element) configList.item(i);
                 RpcServerOptions rpcServerOptions = new RpcServerOptions();
                 rpcServerOptions.setName(elem.getAttribute("name"));
-                rpcServerOptions.setPort(Integer.valueOf(elem.getAttribute("post")));
+                rpcServerOptions.setPort(Integer.valueOf(elem.getAttribute("port")));
                 rpcServerOptions.setAddress(elem.getAttribute("address"));
                 rpcServerOptions.setRegister(Boolean.valueOf(elem.getAttribute("register")));
                 rpcServerOptions.setVersion(elem.getAttribute("version"));
                 rpcServerOptions.setDescription(elem.getAttribute("description"));
+
+
                 //其他的配置信息
-                NodeList childList = elem.getChildNodes();
+                NodeList childList = elem.getElementsByTagName("setting");
                 for (int j = 0; j < childList.getLength(); j++) {
-                    Element child = (Element) childList.item(i);
+                    Element child = (Element) childList.item(j);
                     String value = child.getAttribute("value");
                     String key = child.getAttribute("name");
                     rpcServerOptions.getConfig().put(key, value);
