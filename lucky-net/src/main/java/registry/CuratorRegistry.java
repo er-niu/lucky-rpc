@@ -3,6 +3,7 @@ package registry;
 import com.alibaba.fastjson.JSON;
 import com.netflix.curator.framework.api.CuratorWatcher;
 import common.GlobalConstants;
+import config.GlobalConfig;
 import lombok.Getter;
 import lombok.Setter;
 import lucky.util.log.Logger;
@@ -36,7 +37,7 @@ public class CuratorRegistry implements Registry {
     //启动得时候添加watcher机制
     static {
         //todo：从这里进行zkaddress的初始化操作
-        zkAddress = "192.168.214.191:2181";
+        zkAddress = GlobalConfig.getGlobalSetting().get(GlobalConfig.rpcRegisterAddr);
     }
 
     public static final CuratorClient client = CuratorFactory.get(GlobalConstants.NAME_SPACE, zkAddress);

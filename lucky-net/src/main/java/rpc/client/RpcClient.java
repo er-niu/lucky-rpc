@@ -29,7 +29,6 @@ public class RpcClient {
         if (obj != null) {
             return (T) obj;
         }
-
         InvokerContainer container = InvokerContainer.get(server);
         T proxy = (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, new ClientExporter(meta, container));
         proxies.put(key, proxy);

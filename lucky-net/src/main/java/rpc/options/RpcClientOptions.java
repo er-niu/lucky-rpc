@@ -17,7 +17,6 @@ public class RpcClientOptions {
 
     private String name;
     private String group;
-
     private String version;
     private boolean discovery = true;
     private String address;

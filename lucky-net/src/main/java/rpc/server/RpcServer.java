@@ -26,9 +26,9 @@ public class RpcServer {
     private RemotingServer server;
     private static final Registry registry = CuratorRegistry.registry;
 
-
     public RpcServer() {
         //从配置文件中读取配置信息
+        this(RpcServerOptions.getServerOptions());
     }
 
     public RpcServer(RpcServerOptions options) {
@@ -52,9 +52,9 @@ public class RpcServer {
     public void start() {
         try {
             //服务端口启动
-            logger.info("server begain to start,servername {}",serverOptions.getName());
+            logger.info("server begain to start,servername {}", serverOptions.getName());
             this.server.start();
-            logger.info("server success to start,servername {}",serverOptions.getName());
+            logger.info("server success to start,servername {}", serverOptions.getName());
 
 
             //判断是否注册到配置中心去
