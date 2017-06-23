@@ -2,6 +2,7 @@ package lucky.util.log;
 
 import lucky.util.log.log4j.Log4jLoggerAdapter;
 import lucky.util.log.slf4j.Slf4jLoggerAdapter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -27,13 +28,12 @@ public class LoggerFactory {
     static {
         //todo:该配置需要提前初始化
         String logger = System.getProperty("com.lucky.logger");
-        if (logger.equals(LogType.LOG4J.displayName())) {
-            setLoggerAdapter(new Log4jLoggerAdapter());
-        } else if (logger.equals(LogType.SLF4J.displayName()) || logger.equals(LogType.LOGBACK.displayName())) {
-            setLoggerAdapter(new Slf4jLoggerAdapter());
-        } else {
+        if(StringUtils.isEmpty(logger)){
             //默认是log4j的配置信息
             setLoggerAdapter(new Log4jLoggerAdapter());
+        }else if(logger.equals(LogType.SLF4J.displayName()) || logger.equals(LogType.LOGBACK.displayName())){
+            setLoggerAdapter(new Slf4jLoggerAdapter());
+
         }
     }
 

@@ -30,7 +30,7 @@ public class RpcServerOptions {
     static {
         try {
             URL etcUrl = Thread.currentThread().getContextClassLoader().getResource("config");
-            String configPath = UrlUtil.decode(etcUrl.getPath()) + "/" + "remote.client.conf";
+            String configPath = UrlUtil.decode(etcUrl.getPath()) + "/" + "rpc.server.conf";
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             File file = new File(configPath);

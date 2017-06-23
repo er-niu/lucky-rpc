@@ -1,9 +1,7 @@
 package com.lucky.service;
 
-import com.lucky.service.iface.OrderService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import rpc.RpcApplication;
-import rpc.options.RpcServerOptions;
 
 /**
  * @Author:chaoqiang.zhou
@@ -20,7 +18,7 @@ public class OrderBootStrap {
      */
     public static void main(String[] args) {
 
-        System.setProperty("com.lucky.logger", "log4j");
+//        System.setProperty("com.lucky.logger", "log4j");
 //        RpcServerOptions rpcServerOptions = new RpcServerOptions();
 //        rpcServerOptions.setRegister(true);
 //        rpcServerOptions.setAddress("192.168.9.196");
@@ -32,7 +30,7 @@ public class OrderBootStrap {
 //        OrderService orderService = application.getBean(OrderService.class);
 //        System.out.println(orderService.getOrderInfo());
 //        System.out.println(orderService.getOrderInfos("23"));
-                RpcApplication application = new RpcApplication(OrderBootStrap.class, args);
-
+        RpcApplication application = new RpcApplication(OrderBootStrap.class, args);
+        application.run();
     }
 }

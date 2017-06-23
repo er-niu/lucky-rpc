@@ -2,6 +2,7 @@ package rpc.client;
 
 import lucky.util.log.Logger;
 import lucky.util.log.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import remoting.server.FailMode;
 import rpc.Invoker;
 import rpc.LoadBalance.LoadBalance;
@@ -21,6 +22,7 @@ public class ClientExporter implements InvocationHandler {
 
 
     public static Logger logger = LoggerFactory.getLogger(ClientExporter.class);
+    public static String DEFAULT_LOAD_BALANCE = "random";
     private InvokerContainer container;
     private LoadBalance balance;
     private String serviceName;
@@ -40,7 +42,12 @@ public class ClientExporter implements InvocationHandler {
         String loadBalancer = null;
         if (container.getOptions() != null) {
             loadBalancer = container.getOptions().getConfig().get("LoadBalance");
+
         }
+        if (StringUtils.isEmpty(loadBalancer)) {
+            loadBalancer = DEFAULT_LOAD_BALANCE;
+        }
+
         this.balance = LoadBalance.get(loadBalancer);
     }
 
@@ -55,7 +62,7 @@ public class ClientExporter implements InvocationHandler {
         if (meta == null) {
             return method.invoke(this, args);
         }
-        return invokeRemote(args,method,meta);
+        return invokeRemote(args, method, meta);
     }
 
 

@@ -38,8 +38,8 @@ public class InvokerContainer {
 
     private InvokerContainer(String server) {
         this.server = server;
-        //todo:回头考虑全配置信息,回头在写这块
-        this.options = null;
+        //todo:回头考虑全配置信息,回头在写这块,进行判断是否是直连操作
+        this.options = RpcClientOptions.clientContainers.get(server);
     }
 
 
@@ -65,7 +65,7 @@ public class InvokerContainer {
     private void initialize() {
         List<Invoker> list = new ArrayList<>();
         //优先考虑直连操作,options有配置，isDiscovery=false
-        if (options != null) {
+        if (options != null && !options.isDiscovery()) {
             Invoker invoker = createInvoker(options);
             list.add(invoker);
         } else {
