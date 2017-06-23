@@ -11,6 +11,8 @@ import rpc.RpcApplication;
 
 @SpringBootApplication
 public class OrderBootStrap {
+
+
     /**
      * 主函数
      *
@@ -32,5 +34,7 @@ public class OrderBootStrap {
 //        System.out.println(orderService.getOrderInfos("23"));
         RpcApplication application = new RpcApplication(OrderBootStrap.class, args);
         application.run();
+
+
     }
 }
