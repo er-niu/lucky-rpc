@@ -1,8 +1,16 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>hello</title>
-</head>
+
+
+#js("/hello/hello.js")
 <body>
   测试页面信息
-</html>
+  ${'user'}
+
+
+##      #foreach( $data in $!dataList)
+##      <p>
+##          <span>•</span>
+##          <a class="astye" title=" $!data.instanceName，由$!data.createUserName于$!data.createTime发起" target="_parent" href="$!data.viewUrl?dataId=$!data.dataId&flag=2" ;>
+##              $!data.instanceName，由$!data.createUserName于$!data.createTime发起
+##          </a>
+##      </p>
+##      #end

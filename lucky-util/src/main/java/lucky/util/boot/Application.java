@@ -38,7 +38,8 @@ public class Application {
         this.args = args;
         this.app = new SpringApplication(ServiceLocatorAutoConfig.class, bootClass);
         this.logger = LoggerFactory.getLogger(getClass());
-
+        //初始化配置信息操作
+        this.initialize();
     }
 
 
