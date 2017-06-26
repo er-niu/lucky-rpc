@@ -3,7 +3,7 @@ package com.lucky.db.executor.context;
 /**
  * @Author:chaoqiang.zhou
  * @Description:
- * @Date:Create in 13:44 2017/6/26
+ * @Date:Create in 17:49 2017/6/26
  */
-public interface DeleteClause extends SQLContext{
+public interface UpdateClause extends SQLContext{
 }

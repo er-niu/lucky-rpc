@@ -1,8 +1,6 @@
 package com.lucky.db.executor;
 
-import com.lucky.db.executor.context.DeleteContext;
-import com.lucky.db.executor.context.InsertContext;
-import com.lucky.db.executor.context.InsertClause;
+import com.lucky.db.executor.context.*;
 import com.lucky.db.sqlbuilder.SQL;
 
 import java.util.List;
@@ -26,24 +24,24 @@ public interface Executor {
     //删除语句操作,delete table where......
     DeleteContext delete(String table);
 
-    SQL delete(Object obj);
+    DeleteClauseProvider delete(Object obj);
 
 
+    UpdateContext update(String table);
+
+    UpdateClause update(Object obj);
+
+    UpdateClause update(Object obj, String... columns);
 
 
-    SQL update(String table);
+    //查询操作
+    SelectContext select(String column);
 
-    SQL update(Object obj);
+    SelectContext select(String... columns);
 
-    SQL update(Object obj, String... columns);
+    SelectClause select(Class<?> clazz);
 
-    SQL select(String column);
-
-    SQL select(String... columns);
-
-    SQL select(Class<?> clazz);
-
-    SQL select(Object obj);
+    SelectClause select(Object obj);
 
     //原生sql查询操作
     SQL execute(String sql, Object... args);

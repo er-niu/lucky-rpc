@@ -6,11 +6,10 @@ package com.lucky.db.sqlbuilder;
  * @Date:Create in 11:03 2017/6/26
  */
 
-import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -135,7 +134,7 @@ public abstract class AbstractSQL<T> {
     }
 
 
-    public T LIMIT(String... columns){
+    public T LIMIT(String... columns) {
         sql().limit.addAll(Arrays.asList(columns));
         return getSelf();
     }
@@ -239,7 +238,6 @@ public abstract class AbstractSQL<T> {
             }
         }
 
-
         //拼装select语句,可以看到都是调用sqlClause，
         private String selectSQL(SafeAppendable builder) {
             if (distinct) {
@@ -277,10 +275,13 @@ public abstract class AbstractSQL<T> {
             return builder.toString();
         }
 
+        //todo:需要重写update方法，
         private String updateSQL(SafeAppendable builder) {
 
             sqlClause(builder, "UPDATE", tables, "", "", "");
             sqlClause(builder, "SET", sets, "", "", ", ");
+            sqlClause(builder, "", columns, "(", ")", ", ");
+            sqlClause(builder, "VALUES", values, "(", ")", ", ");
             sqlClause(builder, "WHERE", where, "(", ")", " AND ");
             return builder.toString();
         }

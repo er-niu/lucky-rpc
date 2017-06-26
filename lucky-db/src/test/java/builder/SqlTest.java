@@ -46,12 +46,21 @@ public class SqlTest {
 
     public static String test1() {
         SQL sql = new SQL();
-        sql.VALUES("aa", "bb").VALUES("asdf","asdf").INSERT_INTO("table");
+        sql.VALUES("aa", "bb").VALUES("asdf", "asdf").INSERT_INTO("table");
         return sql.toString();
     }
+
     public static String test3() {
         SQL sql = new SQL();
-        sql.UPDATE("dd").SET("sdf").SET("sd");
+//        sql.UPDATE("dd").SET.WHERE("AS =?");
+        sql.UPDATE("sd").SET("aa=?").SET("ss=?").WHERE("sdf");
+        return sql.toString();
+    }
+
+    public static String test6() {
+        SQL sql = new SQL();
+//        sql.UPDATE("dd").SET.WHERE("AS =?");
+        sql.DELETE_FROM("sdf").WHERE("234 like 2");
         return sql.toString();
     }
 
@@ -60,6 +69,7 @@ public class SqlTest {
         sql.DELETE_FROM("23").WHERE("a,like");
         return sql.toString();
     }
+
     private static String example2(final String id, final String firstName, final String lastName) {
         return new SQL() {{
             SELECT("P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME");
@@ -83,5 +93,6 @@ public class SqlTest {
         System.out.println(example2("1", "2", "3"));
         System.out.println(test1());
         System.out.println(test3());
+        System.out.println(test6());
     }
 }

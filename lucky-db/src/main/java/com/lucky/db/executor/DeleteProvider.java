@@ -25,6 +25,7 @@ public class DeleteProvider implements DeleteContext {
     @Override
     public DeleteContext where(String field, ConditionType type, Object value) {
         //a.id+""+"<="+"?"
+        //最后进行参数化操作
         this.sqlBuilder.WHERE(field + "" + type.name() + " ?");
         args.add(value);
         return this;

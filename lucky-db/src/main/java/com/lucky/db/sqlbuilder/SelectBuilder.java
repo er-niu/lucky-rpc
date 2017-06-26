@@ -19,7 +19,6 @@ package com.lucky.db.sqlbuilder;
  * SELECT建造者,已废弃
  * 可以看到仅仅是包装了一层，转而去调用SQL的方法
  */
-@Deprecated
 public class SelectBuilder {
 
     private static final ThreadLocal<SQL> localSQL = new ThreadLocal<SQL>();

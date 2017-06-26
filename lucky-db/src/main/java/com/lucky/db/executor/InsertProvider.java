@@ -24,7 +24,6 @@ public class InsertProvider implements InsertContext {
     private final SQL sqlBuilder = new SQL();
     private List<Object> args = new ArrayList<>();
 
-
     @Override
     public InsertContext columns(String... columns) {
         for (String column : columns) {
