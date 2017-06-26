@@ -1,5 +1,6 @@
 package com.lucky.db.executor.context;
 
+import com.lucky.db.executor.LockMode;
 import com.lucky.db.executor.result.BuildResult;
 
 /**
@@ -9,5 +10,8 @@ import com.lucky.db.executor.result.BuildResult;
  */
 public interface SQLContext {
     BuildResult print();
+
     <T> T result();
+
+
 }

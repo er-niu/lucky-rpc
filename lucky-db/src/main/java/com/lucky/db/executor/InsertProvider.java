@@ -48,6 +48,8 @@ public class InsertProvider implements InsertContext {
         return new BuildResult(this.args, sqlBuilder.toString());
     }
 
+
+
     //具体插入的逻辑操作
     @Override
     public InsertResult result() {

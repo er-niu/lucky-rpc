@@ -1,6 +1,7 @@
 package com.lucky.db.executor.context;
 
 import com.lucky.db.executor.ConditionType;
+import com.lucky.db.executor.LockMode;
 import com.lucky.db.executor.Sorter;
 
 /**
@@ -39,7 +40,9 @@ public interface SelectContext extends SQLContext {
     public SelectContext ORDER_BY(String columns);
 
     public SelectContext ORDER_BY(String columns, Sorter sorter);
-
     //todo:扩展分页的查询语句操作
     public SelectContext LIMIT(String... columns);
+
+    //锁模式操作
+    <T> T result(LockMode lockMode);
 }

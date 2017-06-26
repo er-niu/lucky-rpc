@@ -23,6 +23,8 @@ public class InsertClauseProvider implements InsertClause {
         return null;
     }
 
+
+
     @Override
     public InsertResult result() {
         return null;

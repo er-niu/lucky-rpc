@@ -18,4 +18,6 @@ public class DeleteClauseProvider implements DeleteClause {
     public <T> T result() {
         return null;
     }
+
+
 }
