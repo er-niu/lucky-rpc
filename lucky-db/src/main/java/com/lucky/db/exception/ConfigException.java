@@ -2,10 +2,10 @@ package com.lucky.db.exception;
 
 /**
  * @Author:chaoqiang.zhou
- * @Description:
+ * @Description:数据源配置的异常信息，继承了，PersistenceException的异常信息
  * @Date:Create in 17:56 2017/6/24
  */
-public class ConfigException extends RuntimeException {
+public class ConfigException extends PersistenceException {
     public ConfigException() {
         super();
     }
@@ -22,7 +22,5 @@ public class ConfigException extends RuntimeException {
         super(cause);
     }
 
-    protected ConfigException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+
 }

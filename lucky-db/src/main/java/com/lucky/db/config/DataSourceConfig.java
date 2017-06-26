@@ -13,7 +13,7 @@ import lombok.Setter;
 public class DataSourceConfig {
     private String name;
     private String driver;
-    //默认是DBCP类型
+    //默认是DBCP数据源连接池
     private DataSourceType dataSourceType = DataSourceType.DBCP;
     private DataSourceParams dataSourceParams = new DataSourceParams();
 

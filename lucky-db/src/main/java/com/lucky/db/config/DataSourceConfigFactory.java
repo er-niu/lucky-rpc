@@ -29,13 +29,15 @@ public class DataSourceConfigFactory {
 
 
     //项目启动的时候就加载
-    static{
+    static {
         //静态方法进行初始化操作
     }
+
     //通过名称来获取
     public static DataSourceConfig get(String name) {
         DataSourceConfig dataSourceConfig = dataSourceConfigs.get(name);
         if (dataSourceConfig == null) {
+            //配置的异常类信息
             throw new ConfigException("can not find db,name={}" + name);
         }
         return dataSourceConfig;
