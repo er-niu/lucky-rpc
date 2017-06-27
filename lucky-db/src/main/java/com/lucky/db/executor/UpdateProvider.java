@@ -1,10 +1,11 @@
 package com.lucky.db.executor;
 
 import com.lucky.db.executor.context.UpdateContext;
+import com.lucky.db.executor.result.BasicResult;
 import com.lucky.db.executor.result.BuildResult;
-import com.lucky.db.executor.result.UpdateResult;
 import com.lucky.db.sqlbuilder.SQL;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,13 @@ public class UpdateProvider implements UpdateContext {
     private SQL sqlBuilder = new SQL();
     //参数集合信息
     private List<Object> args = new ArrayList<>();
+
+    private DataSource dataSource;
+
+    public UpdateProvider(String tableName, DataSource dataSource) {
+        this.tableName = tableName;
+        this.dataSource = dataSource;
+    }
 
     public UpdateProvider(String tableName) {
         this.tableName = tableName;
@@ -70,7 +78,7 @@ public class UpdateProvider implements UpdateContext {
     }
 
     @Override
-    public UpdateResult result() {
+    public BasicResult result() {
         return null;
     }
 }

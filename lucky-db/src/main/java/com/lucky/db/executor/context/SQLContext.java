@@ -1,7 +1,8 @@
 package com.lucky.db.executor.context;
 
-import com.lucky.db.executor.LockMode;
 import com.lucky.db.executor.result.BuildResult;
+
+import javax.sql.DataSource;
 
 /**
  * @Author:chaoqiang.zhou
@@ -9,6 +10,7 @@ import com.lucky.db.executor.result.BuildResult;
  * @Date:Create in 13:04 2017/6/26
  */
 public interface SQLContext {
+
     BuildResult print();
 
     <T> T result();

@@ -4,7 +4,9 @@ import com.lucky.db.executor.context.SelectContext;
 import com.lucky.db.executor.result.BuildResult;
 import com.lucky.db.sqlbuilder.SQL;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,9 +17,21 @@ import java.util.List;
 public class SelectProvider implements SelectContext {
 
 
+    public DataSource dataSource;
     private SQL sqlBuilder = new SQL();
     private List<String> columns = new ArrayList<>();
     private List<Object> args = new ArrayList<>();
+
+
+    public SelectProvider(String column, DataSource dataSource) {
+        this.columns.add(column);
+        this.dataSource = dataSource;
+    }
+
+    public SelectProvider(DataSource dataSource, String... columns) {
+        this.columns.addAll(Arrays.asList(columns));
+        this.dataSource = dataSource;
+    }
 
     @Override
     public SelectContext SELECT(String columns) {
@@ -28,6 +42,13 @@ public class SelectProvider implements SelectContext {
     @Override
     public SelectContext SELECT_DISTINCT(String columns) {
         this.sqlBuilder.SELECT_DISTINCT(columns);
+        return this;
+    }
+
+    @Override
+    public SelectContext COUNT(String fieldName) {
+        String field = "count(" + fieldName + ")";
+        this.sqlBuilder.SELECT(field);
         return this;
     }
 

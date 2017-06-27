@@ -1,11 +1,12 @@
 package com.lucky.db.executor;
 
 import com.lucky.db.executor.context.InsertContext;
+import com.lucky.db.executor.result.BasicResult;
 import com.lucky.db.executor.result.BuildResult;
-import com.lucky.db.executor.result.InsertResult;
 import com.lucky.db.sqlbuilder.SQL;
 import lombok.Setter;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,13 @@ public class InsertProvider implements InsertContext {
     private String tableName;
     private final SQL sqlBuilder = new SQL();
     private List<Object> args = new ArrayList<>();
+
+    private DataSource dataSource;
+
+    public InsertProvider(String tableName, DataSource dataSource) {
+        this.tableName = tableName;
+        this.dataSource = dataSource;
+    }
 
     @Override
     public InsertContext columns(String... columns) {
@@ -49,10 +57,9 @@ public class InsertProvider implements InsertContext {
     }
 
 
-
     //具体插入的逻辑操作
     @Override
-    public InsertResult result() {
+    public BasicResult result() {
         return null;
     }
 }

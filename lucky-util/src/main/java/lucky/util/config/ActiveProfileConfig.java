@@ -1,4 +1,4 @@
-package config;
+package lucky.util.config;
 
 import com.sun.jndi.toolkit.url.UrlUtil;
 import lucky.util.lang.EnvirmentConfig;

@@ -16,6 +16,8 @@ public interface SelectContext extends SQLContext {
 
     public SelectContext SELECT_DISTINCT(String columns);
 
+    public SelectContext COUNT(String fieldName);
+
     public SelectContext FROM(String table);
 
     public SelectContext JOIN(String join);
@@ -28,7 +30,7 @@ public interface SelectContext extends SQLContext {
 
     public SelectContext OUTER_JOIN(String join);
 
-    public SelectContext WHERE(String conditions, ConditionType type,Object value);
+    public SelectContext WHERE(String conditions, ConditionType type, Object value);
 
     public SelectContext OR();
 
@@ -37,9 +39,11 @@ public interface SelectContext extends SQLContext {
     public SelectContext GROUP_BY(String... columns);
 
     public SelectContext HAVING(String conditions);
+
     public SelectContext ORDER_BY(String columns);
 
     public SelectContext ORDER_BY(String columns, Sorter sorter);
+
     //todo:扩展分页的查询语句操作
     public SelectContext LIMIT(String... columns);
 

@@ -24,7 +24,9 @@ public interface Executor {
     //删除语句操作,delete table where......
     DeleteContext delete(String table);
 
-    DeleteClauseProvider delete(Object obj);
+    DeleteClause delete(Object obj);
+
+    DeleteClause delete(List<Object> objs);
 
 
     UpdateContext update(String table);
@@ -41,8 +43,7 @@ public interface Executor {
 
     SelectClause select(Class<?> clazz);
 
-    SelectClause select(Object obj);
 
     //原生sql查询操作
-    SQL execute(String sql, Object... args);
+    ExecuteClause execute(String sql, Object... args);
 }

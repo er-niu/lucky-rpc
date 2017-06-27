@@ -37,6 +37,7 @@ public class SqlTest {
     public static String getSql2() {
         final String sql = new SQL() {{
             SELECT("id, name");
+            SELECT("count(*)");
             FROM("PERSON A");
             WHERE("name like ?").WHERE("id = ?");
         }}.toString();
@@ -88,11 +89,11 @@ public class SqlTest {
     }
 
     public static void main(String[] args) {
-        System.out.println(getSql());
+//        System.out.println(getSql());
         System.out.println(getSql2());
-        System.out.println(example2("1", "2", "3"));
-        System.out.println(test1());
-        System.out.println(test3());
-        System.out.println(test6());
+//        System.out.println(example2("1", "2", "3"));
+//        System.out.println(test1());
+//        System.out.println(test3());
+//        System.out.println(test6());
     }
 }
