@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc</artifactId>
-            <version>4.2</version>
+            <!--<version>4.2</version>-->
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -16,8 +16,8 @@
 package lucky.util.log.log4j;
 
 import lucky.util.log.Logger;
+import lucky.util.log.LoggerAdapter;
 import org.apache.log4j.Level;
-import org.apache.logging.log4j.spi.LoggerAdapter;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
